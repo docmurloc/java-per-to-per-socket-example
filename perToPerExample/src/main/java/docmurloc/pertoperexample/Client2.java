@@ -23,10 +23,74 @@
  */
 package docmurloc.pertoperexample;
 
+import docmurloc.clientServer.SimpleClientSocket;
+import docmurloc.clientServer.SimpleServerSocket;
+
 /**
  *
  * @author pierre
  */
 public class Client2 {
+    
+    public static void main(String args[]) {
+
+        SimpleServerSocket server = new SimpleServerSocket(3000);
+
+        server.start();
+        
+        final String serverHost = "localhost";
+        final int portHost = 9999;
+
+        SimpleClientSocket mySocket = new SimpleClientSocket(serverHost, portHost);
+
+        System.out.println("Waiting new connection");
+
+        while (!server.isNewConnection()) {
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+
+        }
+
+        SimpleClientSocket client = server.getNewSocketAccepted();
+
+        char[] message;
+        int loop = 0;
+
+        do {
+            if (client.isNewMessage()) {
+                message = client.readMessage();
+
+                System.out.println("Message get = " + String.valueOf(message));
+                loop++;
+            } else {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        } while (loop < 4);
+
+        loop = 0;
+
+        //mySocket.sendMessage("test 1");
+        //mySocket.sendMessage("test 2");
+        //mySocket.sendMessage("test 3");
+        //mySocket.sendMessage("QUIT");
+        
+        client.closeConnection();
+
+        server.stop();
+        
+        mySocket.closeConnection();
+        
+         System.out.println("Sever stopped!");
+    }
+
+        
     
 }

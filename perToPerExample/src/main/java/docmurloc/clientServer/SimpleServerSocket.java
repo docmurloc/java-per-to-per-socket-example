@@ -194,6 +194,7 @@ public final class SimpleServerSocket implements Runnable {
             try {
                 this.listener.close();
             } catch (IOException e) {
+                
                 System.out.println(e);
                 e.printStackTrace();
             }

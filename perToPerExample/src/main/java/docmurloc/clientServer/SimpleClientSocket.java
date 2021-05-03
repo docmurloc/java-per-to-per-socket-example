@@ -36,7 +36,7 @@ public class SimpleClientSocket {
 
     private static int newId = 0;
 
-    private Socket socket;
+    private Socket socket = null;
     private int id;
 
     private BufferedWriter os;
@@ -64,6 +64,22 @@ public class SimpleClientSocket {
                 | ((bytes[3] & 0xFF) << 0);
     }
 
+    public InetAddress getInetAdress() {
+        if (this.socket != null) {
+            return this.socket.getInetAddress();
+        }
+        
+        return null;
+    }
+    
+    public int getPort() {
+        if (this.socket != null) {
+            return this.socket.getPort();
+        }
+        
+        return 0;
+    }
+    
     public SimpleClientSocket(String host, int port) {
 
         int buffer = 0;
@@ -100,6 +116,9 @@ public class SimpleClientSocket {
 
         String host = address.getHostAddress();
         int buffer = 0;
+        
+        System.out.println("socket connected to " + host + " at " + port);
+
 
         try {
             this.socket = new Socket(address, port);
@@ -135,8 +154,6 @@ public class SimpleClientSocket {
         int port = newSocket.getPort();
 
         int buffer = 0;
-
-        System.out.println("socket connected to " + host + " at " + port);
 
         try {
             this.socket = newSocket;

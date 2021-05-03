@@ -23,10 +23,77 @@
  */
 package docmurloc.pertoperexample;
 
+import docmurloc.clientServer.SimpleClientSocket;
+import docmurloc.clientServer.SimpleServerSocket;
+
 /**
  *
  * @author pierre
  */
 public class Client1 {
-    
+    public static void main(String args[]) {
+
+        SimpleServerSocket server = new SimpleServerSocket(9999);
+
+        server.start();
+
+        System.out.println("Waiting new connection");
+
+        while (!server.isNewConnection()) {
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+
+        }
+
+        SimpleClientSocket client = server.getNewSocketAccepted();
+        
+        //final String serverHost = "localhost";
+        final int portHost = 3000;
+
+        SimpleClientSocket mySocket = new SimpleClientSocket(client.getInetAdress(), portHost);
+
+        char[] message;
+        int loop = 0;
+        
+        mySocket.sendMessage("test 1");
+        mySocket.sendMessage("test 2");
+        mySocket.sendMessage("test 3");
+        mySocket.sendMessage("QUIT");
+        
+        client.closeConnection();
+        
+        mySocket.closeConnection();
+
+        /*do {
+            if (client.isNewMessage()) {
+                message = client.readMessage();
+
+                System.out.println("Message get = " + String.valueOf(message));
+                loop++;
+            } else {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        } while (loop < 4);
+
+        loop = 0;
+
+        client.sendMessage("test");
+
+        server.sendMessageToAll("all 1");
+        server.sendMessageToRoom("all room 2", "ALL");
+        server.sendMessageToRoom("all room 3", "ALL");*/
+
+        server.stop();
+        
+        
+         System.out.println("Sever stopped!");
+    }
 }
