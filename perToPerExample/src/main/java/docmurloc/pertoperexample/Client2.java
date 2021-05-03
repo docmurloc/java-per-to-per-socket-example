@@ -26,6 +26,9 @@ package docmurloc.pertoperexample;
 import docmurloc.clientServer.SimpleClientSocket;
 import docmurloc.clientServer.SimpleServerSocket;
 
+import java.io.*;
+import java.net.*;
+
 /**
  *
  * @author pierre
@@ -39,7 +42,15 @@ public class Client2 {
         server.start();
         
         final String serverHost = "localhost";
-        final int portHost = 9999;
+        InetAddress addr;
+                
+        try {
+             addr =   InetAddress.getByName("127.0.0.1");
+        } catch (UnknownHostException e) {
+            System.out.println(e);
+            System.exit(1);
+        }
+        final int portHost = 3001;
 
         SimpleClientSocket mySocket = new SimpleClientSocket(serverHost, portHost);
 

@@ -33,7 +33,7 @@ import docmurloc.clientServer.SimpleServerSocket;
 public class Client1 {
     public static void main(String args[]) {
 
-        SimpleServerSocket server = new SimpleServerSocket(9999);
+        SimpleServerSocket server = new SimpleServerSocket(3001);
 
         server.start();
 

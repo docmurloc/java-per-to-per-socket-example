@@ -57,6 +57,9 @@ public final class SimpleServerSocket implements Runnable {
             System.exit(1);
         }
     }
+    
+    
+    
 
     public boolean isRoomCreated(String name) {
         return this.room.get(name) != null;
